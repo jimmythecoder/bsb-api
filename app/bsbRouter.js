@@ -1,18 +1,22 @@
-const express       = require('express');
-var router          = express.Router();
+const express   = require('express');
+const router    = express.Router();
 
 module.exports = function(db) {
 
     router.param('bsbNumber', function(req, res, next, bsbNumber) {
 
         if(!/^\d{3}\-?\d{3}$/.test(bsbNumber)) {
-            return next('Invalid BSB number');
+            return next({status: 400, message: 'Invalid BSB number'});
+        }
+
+        if(bsbNumber.indexOf('-') === -1) {
+            bsbNumber = `${bsbNumber.substr(0,3)}-${bsbNumber.substr(3)}`;
         }
 
         db.get("SELECT * FROM bsb WHERE bsbNumber = $bsbNumber", {'$bsbNumber': bsbNumber}, function(err, row) {
 
             if(!row || err) {
-                return next('Not found');
+                return next({status: 404, message:'Not found'});
             }
 
             req.bsb = row;

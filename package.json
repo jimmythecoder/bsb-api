@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://msstash.morningstar.com/scm/au/pegasusbsb.git"
+    "url": "git@bitbucket.org:jimmythecoder/bsb-api.git"
   },
   "keywords": [
     "API",
